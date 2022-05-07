@@ -12,6 +12,6 @@ namespace Entities.Concrete
         public int Id { get; set; }
         public int CarId { get; set; }
         public string ImagePath { get; set; } //resim adı
-        public DateTime Date { get; set; } // resim yüklendiği tarih
+        public DateTime DateTime { get; set; } // resim yüklendiği tarih
     }
 }

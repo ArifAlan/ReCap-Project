@@ -18,6 +18,9 @@ namespace DataAccess.Abstract
         //void Delete(Car car);
         //void Update(Car car);
         List<CarDetailDto> GetCarDetails();
-     
+        List<CarDetailDto> GetCarDetailsByCarId(int carId);
+        List<CarDetailDto> GetCarDetailsByBrandId(int brandId);
+
+
     }
 }

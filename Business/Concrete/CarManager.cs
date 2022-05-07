@@ -30,8 +30,8 @@ namespace Business.Concrete
             _carDal = carDal;
             _brandService = brandService;
         }
-        [SecuredOperation("car.add,admin")]
-        [ValidationAspect(typeof(CarValidator))]
+        //[SecuredOperation("admin")] //BURADA NE YAZIYOR car.add,admin BU ŞEKLDEGERİNCE MU MAL VİRGÜLÜ ALGILAMIYOR KOMPLE BUNU TEK BİR YETKİ SANIYOR
+        [ValidationAspect(typeof(CarValidator))]  
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
@@ -49,18 +49,32 @@ namespace Business.Concrete
         }
 
         [CacheAspect]// key ,value
-        [SecuredOperation("car.add,admin")]
-        [PerformanceAspect(5)]
+        //[SecuredOperation("admin")]
+       //[PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAll()
         {
             
 
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
+
+        }
+        public IDataResult<List<Car>> GetCarsById(int Id)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.Id == Id));
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCarId(int carId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByCarId(carId));
+        }
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByCarId(brandId));
         }
         [CacheAspect]
         public IDataResult<List<Car>> GetCarsByBrandId(int Id)
@@ -83,6 +97,11 @@ namespace Business.Concrete
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
+        }
+
+        public IDataResult<List<Car>> GetCarsByColorIdAndBrandId(int colorId, int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId && c.BrandId==brandId));
         }
     }
 }
